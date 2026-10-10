@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swasthya Bharat | National Hospital OPD & Healthcare Portal</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome 6 CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        bharat: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            500: '#0284c7',
+                            600: '#0369a1',
+                            700: '#075985',
+                            800: '#0c4a6e',
+                            900: '#0a3650',
+                            teal: '#0d9488',
+                            darkteal: '#0f766e',
+                            saffron: '#f97316'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+        .ticker-wrap { overflow: hidden; white-space: nowrap; }
+        .ticker-move { display: inline-block; animation: ticker 40s linear infinite; }
+        @keyframes ticker {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-50%, 0, 0); }
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col justify-between selection:bg-bharat-500 selection:text-white">
+
+    <!-- Top Emergency & Government Header Bar -->
+    <div class="bg-bharat-900 text-white text-xs py-2 px-4 sm:px-8 border-b border-bharat-800 sticky top-0 z-50 shadow-md">
+        <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-2">
+            <div class="flex items-center gap-3">
+                <span class="inline-flex items-center gap-1.5 bg-bharat-saffron/20 border border-bharat-saffron/40 px-2 py-0.5 rounded text-[11px] font-bold text-saffron-300">
+                    <i class="fa-solid fa-flag text-saffron-400"></i> Ministry of Health & Family Welfare Initiative
+                </span>
+                <span class="hidden md:inline text-slate-300">National Health Portal of India (NHP)</span>
+            </div>
+            <div class="flex items-center gap-4 text-xs font-semibold">
+                <a href="tel:108" class="text-rose-300 hover:text-white transition flex items-center gap-1">
+                    <i class="fa-solid fa-phone-volume text-rose-400 animate-pulse"></i> National Emergency: 108
+                </a>
+                <span class="text-slate-600">|</span>
+                <button onclick="switchView('dashboard')" class="bg-bharat-teal hover:bg-bharat-darkteal text-white px-2.5 py-1 rounded-md text-[11px] font-bold transition flex items-center gap-1 shadow-sm">
+                    <i class="fa-solid fa-user-doctor"></i> My ABHA Health Wallet
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Navigation Header -->
+    <header class="bg-white border-b border-slate-200 sticky top-[33px] sm:top-[37px] z-40 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-3 cursor-pointer" onclick="switchView('home')">
+                <div class="w-11 h-11 bg-gradient-to-tr from-bharat-800 via-bharat-600 to-bharat-teal rounded-xl flex items-center justify-center text-white shadow-md">
+                    <i class="fa-solid fa-heart-pulse text-2xl"></i>
+                </div>
+                <div>
+                    <h1 class="font-extrabold text-lg sm:text-xl text-bharat-800 leading-none tracking-tight">Swasthya<span class="text-bharat-saffron">Bharat</span></h1>
+                    <p class="text-[11px] text-slate-500 font-medium tracking-wide">Unified Hospital OPD & Diagnostics Booking</p>
+                </div>
+            </div>
+
+            <!-- Nav Links Desktop -->
+            <nav class="hidden lg:flex items-center gap-6 font-semibold text-sm text-slate-600">
+                <button onclick="switchView('home')" class="hover:text-bharat-600 transition">Home</button>
+                <button onclick="switchView('hospitals')" class="hover:text-bharat-600 transition">Find Hospitals</button>
+                <button onclick="switchView('appointment')" class="hover:text-bharat-600 transition">Book OPD</button>
+                <button onclick="switchView('diagnostics')" class="hover:text-bharat-600 transition">Diagnostics</button>
+                <button onclick="switchView('queue')" class="hover:text-bharat-600 transition">Live Queue Tracker</button>
+                <button onclick="switchView('info')" class="hover:text-bharat-600 transition">Helpline & Info</button>
+            </nav>
+
+            <!-- Action CTA -->
+            <div class="flex items-center gap-2">
+                <button onclick="switchView('abha')" class="bg-bharat-600 hover:bg-bharat-700 text-white text-xs sm:text-sm px-4 py-2 rounded-xl font-bold shadow transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-id-card"></i> <span class="hidden sm:inline">Create</span> ABHA Card
+                </button>
+                <button onclick="toggleMobileMenu()" class="lg:hidden p-2 text-slate-600 hover:text-bharat-600">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Drawer -->
+        <div id="mobileMenu" class="hidden lg:hidden bg-white border-t px-4 py-3 space-y-2 shadow-xl">
+            <button onclick="switchView('home'); toggleMobileMenu();" class="block w-full text-left py-2 px-3 rounded-lg hover:bg-bharat-50 font-medium">Home</button>
+            <button onclick="switchView('hospitals'); toggleMobileMenu();" class="block w-full text-left py-2 px-3 rounded-lg hover:bg-bharat-50 font-medium">Find Hospitals Across India</button>
+            <button onclick="switchView('appointment'); toggleMobileMenu();" class="block w-full text-left py-2 px-3 rounded-lg hover:bg-bharat-50 font-medium">Book OPD Appointment</button>
+            <button onclick="switchView('diagnostics'); toggleMobileMenu();" class="block w-full text-left py-2 px-3 rounded-lg hover:bg-bharat-50 font-medium">Lab & Diagnostic Tests</button>
+            <button onclick="switchView('queue'); toggleMobileMenu();" class="block w-full text-left py-2 px-3 rounded-lg hover:bg-bharat-50 font-medium">Live Queue Tracking</button>
+            <button onclick="switchView('dashboard'); toggleMobileMenu();" class="block w-full text-left py-2 px-3 rounded-lg hover:bg-bharat-50 font-medium">My Health Dashboard</button>
+            <button onclick="switchView('info'); toggleMobileMenu();" class="block w-full text-left py-2 px-3 rounded-lg hover:bg-bharat-50 font-medium">Emergency Contacts & Guidance</button>
+        </div>
+    </header>
+
+    <!-- Ticker Notice -->
+    <div class="bg-bharat-50 border-b border-bharat-100 py-2 px-4 text-xs text-bharat-800 flex items-center">
+        <span class="bg-bharat-600 text-white font-bold px-2 py-0.5 rounded text-[10px] uppercase mr-3 shrink-0"><i class="fa-solid fa-bullhorn mr-1"></i> Update</span>
+        <div class="ticker-wrap overflow-hidden flex-grow font-medium">
+            <div class="ticker-move">
+                <span class="mx-6"><i class="fa-solid fa-circle text-[6px] text-bharat-teal mr-2"></i> Ayushman Bharat PM-JAY cardholders get 100% free OPD consultation at all empanelled Government & Private hospitals.</span>
+                <span class="mx-6"><i class="fa-solid fa-circle text-[6px] text-bharat-teal mr-2"></i> Digital tokens generated via Swasthya Bharat portal are directly linked with hospital live queue monitors.</span>
+                <span class="mx-6"><i class="fa-solid fa-circle text-[6px] text-bharat-teal mr-2"></i> Free ABHA (Ayushman Bharat Health Account) creation active now.</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN BODY CONTAINER -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 py-6">
+
+        <!-- ================= VIEW 1: HOME ================= -->
+        <div id="view-home" class="view-section space-y-8 animate-fade-in">
+            <!-- Hero Search Section -->
+            <div class="relative bg-gradient-to-br from-bharat-900 via-bharat-800 to-bharat-700 text-white rounded-3xl overflow-hidden shadow-2xl p-6 sm:p-12 space-y-6">
+                <div class="max-w-3xl space-y-4">
+                    <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-3 py-1 rounded-full text-xs font-semibold text-teal-200 border border-white/10">
+                        <i class="fa-solid fa-shield-heart text-saffron-400"></i> Nationwide Healthcare Access • 1,500+ Hospitals Linked
+                    </div>
+                    <h2 class="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight">
+                        Find Hospitals & Book OPD Appointments <span class="text-teal-300">Anywhere in India</span>
+                    </h2>
+                    <p class="text-slate-200 text-sm sm:text-base leading-relaxed">
+                        Instant OPD tokens, specialist consultation, live queue tracking, and diagnostic test bookings across AIIMS, Central/State Govt Hospitals, and accredited private medical centers.
+                    </p>
+                </div>
+
+                <!-- Interactive Filter Box -->
+                <div class="bg-white rounded-2xl p-4 sm:p-5 text-slate-800 shadow-xl border border-slate-100 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-500 uppercase mb-1"><i class="fa-solid fa-map-location-dot text-bharat-600 mr-1"></i> Select State</label>
+                        <select id="heroStateFilter" onchange="heroLocationChanged()" class="w-full border rounded-xl p-2.5 text-xs sm:text-sm font-semibold focus:ring-2 focus:ring-bharat-500 focus:outline-none bg-slate-50">
+                            <option value="All">All States (India)</option>
+                            <option value="Uttar Pradesh">Uttar Pradesh</option>
+                            <option value="Delhi NCR">Delhi NCR</option>
+                            <option value="Maharashtra">Maharashtra</option>
+                            <option value="Karnataka">Karnataka</option>
+                            <option value="Bihar">Bihar</option>
+                            <option value="West Bengal">West Bengal</option>
+                            <option value="Tamil Nadu">Tamil Nadu</option>
+                            <option value="Telangana">Telangana</option>
+                            <option value="Rajasthan">Rajasthan</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-500 uppercase mb-1"><i class="fa-solid fa-city text-bharat-600 mr-1"></i> City / District</label>
+                        <select id="heroCityFilter" class="w-full border rounded-xl p-2.5 text-xs sm:text-sm font-semibold focus:ring-2 focus:ring-bharat-500 focus:outline-none bg-slate-50">
+                            <option value="All">All Cities</option>
+                            <option value="Lucknow">Lucknow</option>
+                            <option value="New Delhi">New Delhi</option>
+                            <option value="Mumbai">Mumbai</option>
+                            <option value="Bengaluru">Bengaluru</option>
+                            <option value="Patna">Patna</option>
+                            <option value="Kolkata">Kolkata</option>
+                            <option value="Jaipur">Jaipur</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-500 uppercase mb-1"><i class="fa-solid fa-stethoscope text-bharat-600 mr-1"></i> Speciality</label>
+                        <select id="heroDeptFilter" class="w-full border rounded-xl p-2.5 text-xs sm:text-sm font-semibold focus:ring-2 focus:ring-bharat-500 focus:outline-none bg-slate-50">
+                            <option value="All">All Departments</option>
+                            <option value="General Medicine">General Medicine</option>
+                            <option value="Cardiology">Cardiology</option>
+                            <option value="Orthopedics">Orthopedics</option>
+                            <option value="Pediatrics">Pediatrics</option>
+                            <option value="Neurology">Neurology</option>
+                            <option value="Oncology">Oncology</option>
+                            <option value="Ophthalmology">Ophthalmology</option>
+                        </select>
+                    </div>
+
+                    <div class="flex items-end">
+                        <button onclick="triggerHeroSearch()" class="w-full bg-bharat-teal hover:bg-bharat-darkteal text-white font-bold p-2.5 rounded-xl text-sm shadow-md transition flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-magnifying-glass"></i> Search Hospitals
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Popular Quick Badges -->
+                <div class="flex flex-wrap items-center gap-2 text-xs pt-2">
+                    <span class="text-slate-300 font-semibold">Popular Institutions:</span>
+                    <button onclick="quickFilterHospital('AIIMS')" class="bg-white/10 hover:bg-white/20 px-3 py-1 rounded-full text-white border border-white/20 transition">AIIMS Network</button>
+                    <button onclick="quickFilterHospital('RML')" class="bg-white/10 hover:bg-white/20 px-3 py-1 rounded-full text-white border border-white/20 transition">RML Hospitals</button>
+                    <button onclick="quickFilterHospital('Safdarjung')" class="bg-white/10 hover:bg-white/20 px-3 py-1 rounded-full text-white border border-white/20 transition">Safdarjung Delhi</button>
+                    <button onclick="quickFilterHospital('PGI')" class="bg-white/10 hover:bg-white/20 px-3 py-1 rounded-full text-white border border-white/20 transition">PGIMER</button>
+                </div>
+            </div>
+
+            <!-- Quick Action Features Grid -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                <div onclick="switchView('hospitals')" class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-bharat-500 transition cursor-pointer text-center group">
+                    <div class="w-12 h-12 bg-bharat-50 text-bharat-600 rounded-2xl flex items-center justify-center mx-auto mb-3 group-hover:bg-bharat-600 group-hover:text-white transition text-xl shadow-inner">
+                        <i class="fa-solid fa-hospital"></i>
+                    </div>
+                    <h4 class="font-bold text-slate-800 text-sm">Find Hospitals</h4>
+                    <p class="text-xs text-slate-500 mt-1">Govt & Private across India</p>
+                </div>
+
+                <div onclick="switchView('appointment')" class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-bharat-500 transition cursor-pointer text-center group">
+                    <div class="w-12 h-12 bg-teal-50 text-teal-600 rounded-2xl flex items-center justify-center mx-auto mb-3 group-hover:bg-teal-600 group-hover:text-white transition text-xl shadow-inner">
+                        <i class="fa-solid fa-calendar-check"></i>
+                    </div>
+                    <h4 class="font-bold text-slate-800 text-sm">Book OPD Ticket</h4>
+                    <p class="text-xs text-slate-500 mt-1">Select date, slot & doctor</p>
+                </div>
+
+                <div onclick="switchView('queue')" class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-bharat-500 transition cursor-pointer text-center group">
+                    <div class="w-12 h-12 bg-amber-50 text-amber-600 rounded-2xl flex items-center justify-center mx-auto mb-3 group-hover:bg-amber-600 group-hover:text-white transition text-xl shadow-inner">
+                        <i class="fa-solid fa-list-ol"></i>
+                    </div>
+                    <h4 class="font-bold text-slate-800 text-sm">Live OPD Queue</h4>
+                    <p class="text-xs text-slate-500 mt-1">Track token & wait time</p>
+                </div>
+
+                <div onclick="switchView('diagnostics')" class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-bharat-500 transition cursor-pointer text-center group">
+                    <div class="w-12 h-12 bg-rose-50 text-rose-600 rounded-2xl flex items-center justify-center mx-auto mb-3 group-hover:bg-rose-600 group-hover:text-white transition text-xl shadow-inner">
+                        <i class="fa-solid fa-vial-virus"></i>
+                    </div>
+                    <h4 class="font-bold text-slate-800 text-sm">Lab & Radiology</h4>
+                    <p class="text-xs text-slate-500 mt-1">MRI, CT & Blood Tests</p>
+                </div>
+            </div>
+
+            <!-- Featured Top Hospitals Carousel / Grid -->
+            <div class="space-y-4">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-800">Top Empannelled Medical Institutions</h3>
+                        <p class="text-xs text-slate-500">Government tertiary healthcare hubs & accredited private centers</p>
+                    </div>
+                    <button onclick="switchView('hospitals')" class="text-bharat-600 hover:text-bharat-700 text-xs font-bold flex items-center gap-1">
+                        View All Hospitals <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="homeFeaturedHospitals">
+                    <!-- Dynamic rendering via JS -->
+                </div>
+            </div>
+
+            <!-- Statistics Banner -->
+            <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+                <div class="space-y-1">
+                    <h4 class="text-3xl font-extrabold text-bharat-700">1,500+</h4>
+                    <p class="text-xs font-bold text-slate-500 uppercase tracking-wider">Empannelled Hospitals</p>
+                </div>
+                <div class="space-y-1">
+                    <h4 class="text-3xl font-extrabold text-bharat-teal">36 States/UTs</h4>
+                    <p class="text-xs font-bold text-slate-500 uppercase tracking-wider">National Coverage</p>
+                </div>
+                <div class="space-y-1">
+                    <h4 class="text-3xl font-extrabold text-bharat-700">1.2 Lakh+</h4>
+                    <p class="text-xs font-bold text-slate-500 uppercase tracking-wider">Daily OPD Tokens</p>
+                </div>
+                <div class="space-y-1">
+                    <h4 class="text-3xl font-extrabold text-bharat-saffron">100% Free</h4>
+                    <p class="text-xs font-bold text-slate-500 uppercase tracking-wider">Ayushman Card Covered</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= VIEW 2: HOSPITALS DISCOVERY ================= -->
+        <div id="view-hospitals" class="view-section hidden space-y-6 animate-fade-in">
+            <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div>
+                    <span class="bg-bharat-50 text-bharat-600 text-xs font-bold px-3 py-1 rounded-full"><i class="fa-solid fa-hospital-user mr-1"></i> Hospital Directory</span>
+                    <h2 class="text-2xl font-extrabold text-slate-800 mt-2">Hospitals Across India</h2>
+                    <p class="text-xs text-slate-500">Filter by location, ownership type, or department availability.</p>
+                </div>
+                <div class="w-full md:w-80">
+                    <input type="text" id="hospitalSearchInput" oninput="renderHospitalsList()" placeholder="Search hospital name, city, or state..." class="w-full border rounded-xl px-3.5 py-2.5 text-xs sm:text-sm font-semibold focus:ring-2 focus:ring-bharat-500 focus:outline-none">
+                </div>
+            </div>
+
+            <!-- Main Filter Bar -->
+            <div class="flex flex-wrap gap-2 text-xs font-semibold">
+                <button onclick="setHospTypeFilter('All')" id="btnFilterAll" class="hosp-filter-btn px-4 py-2 rounded-xl bg-bharat-600 text-white shadow">All Hospitals</button>
+                <button onclick="setHospTypeFilter('Govt')" id="btnFilterGovt" class="hosp-filter-btn px-4 py-2 rounded-xl bg-white border text-slate-700 hover:bg-slate-50">Central & State Govt</button>
+                <button onclick="setHospTypeFilter('AIIMS')" id="btnFilterAIIMS" class="hosp-filter-btn px-4 py-2 rounded-xl bg-white border text-slate-700 hover:bg-slate-50">AIIMS Network</button>
+                <button onclick="setHospTypeFilter('Private')" id="btnFilterPrivate" class="hosp-filter-btn px-4 py-2 rounded-xl bg-white border text-slate-700 hover:bg-slate-50">Accredited Private</button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="hospitalsListContainer">
+                <!-- Dynamically populated -->
+            </div>
+        </div>
+
+        <!-- ================= VIEW 3: ABHA & PATIENT REGISTRATION ================= -->
+        <div id="view-abha" class="view-section hidden space-y-6 animate-fade-in max-w-2xl mx-auto">
+            <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-6 sm:p-8 space-y-6">
+                <div class="border-b pb-4">
+                    <span class="bg-bharat-50 text-bharat-600 text-xs font-bold px-3 py-1 rounded-full"><i class="fa-solid fa-id-card-clip mr-1"></i> ABDM Compliant</span>
+                    <h2 class="text-2xl font-extrabold text-slate-800 mt-2">National Patient Registration & ABHA Card</h2>
+                    <p class="text-xs text-slate-500">Generate your Ayushman Bharat Health Account (ABHA) ID for seamless hospital consultations.</p>
+                </div>
+
+                <form id="abhaRegistrationForm" onsubmit="handleAbhaRegistration(event)" class="space-y-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Full Name (As per Aadhaar) *</label>
+                            <input type="text" id="pName" required placeholder="e.g. Ramesh Chandra" class="w-full border rounded-xl p-2.5 text-xs sm:text-sm font-semibold focus:ring-2 focus:ring-bharat-500 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Mobile Number (Aadhaar Linked) *</label>
+                            <input type="tel" id="pMobile" pattern="[0-9]{10}" required placeholder="10-digit mobile number" class="w-full border rounded-xl p-2.5 text-xs sm:text-sm font-semibold focus:ring-2 focus:ring-bharat-500 focus:outline-none">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Age *</label>
+                            <input type="number" id="pAge" min="1" max="110" required placeholder="Age" class="w-full border rounded-xl p-2.5 text-xs sm:text-sm font-semibold focus:ring-2 focus:ring-bharat-500 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Gender *</label>
+                            <select id="pGender" required class="w-full border rounded-xl p-2.5 text-xs sm:text-sm font-semibold focus:ring-2 focus:ring-bharat-500 focus:outline-none bg-white">
+                                <option value="">Select Gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">State *</label>
+                            <select id="pState" required class="w-full border rounded-xl p-2.5 text-xs sm:text-sm font-semibold focus:ring-2 focus:ring-bharat-500 focus:outline-none bg-white">
+                                <option value="Uttar Pradesh">Uttar Pradesh</option>
+                                <option value="Delhi">Delhi</option>
+                                <option value="Maharashtra">Maharashtra</option>
+                                <option value="Karnataka">Karnataka</option>
+                                <option value="Bihar">Bihar</option>
+                                <option value="West Bengal">West Bengal</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Full Address / District *</label>
+                        <input type="text" id="pAddress" required placeholder="District / City name..." class="w-full border rounded-xl p-2.5 text-xs sm:text-sm font-semibold focus:ring-2 focus:ring-bharat-500 focus:outline-none">
+                    </div>
+
+                    <div class="bg-bharat-50 p-3 rounded-xl text-xs text-bharat-800 flex items-center gap-2 border border-bharat-100">
+                        <i class="fa-solid fa-shield-check text-bharat-teal text-lg"></i>
+                        <span>ABHA ID will be instantly generated and saved to your browser session wallet.</span>
+                    </div>
+
+                    <button type="submit" class="w-full bg-bharat-600 hover:bg-bharat-700 text-white font-bold py-3 rounded-xl text-sm shadow transition flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-id-card"></i> Create Digital ABHA Card & UHID
+                    </button>
+                </form>
+
+                <!-- Generated ABHA Card Preview (Hidden initially) -->
+                <div id="abhaCardContainer" class="hidden space-y-4">
+                    <div class="bg-gradient-to-tr from-bharat-900 via-bharat-800 to-bharat-700 text-white rounded-2xl p-6 shadow-xl border border-white/20 relative overflow-hidden space-y-4">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <span class="text-[10px] uppercase font-bold text-saffron-400 tracking-wider">Ayushman Bharat Digital Mission</span>
+                                <h3 class="text-xl font-extrabold tracking-tight">ABHA Health Card</h3>
+                            </div>
+                            <div class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center text-saffron-300">
+                                <i class="fa-solid fa-qrcode text-xl"></i>
+                            </div>
+                        </div>
+
+                        <div class="space-y-1">
+                            <span class="text-xs text-slate-300">ABHA Number / UHID</span>
+                            <h4 id="cardAbhaNumber" class="text-2xl font-mono font-extrabold tracking-wider text-teal-300">91-8842-9012-4410</h4>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4 text-xs pt-2 border-t border-white/10">
+                            <div>
+                                <span class="text-slate-400">Name:</span>
+                                <p id="cardName" class="font-bold text-white">Ramesh Chandra</p>
+                            </div>
+                            <div>
+                                <span class="text-slate-400">Gender / Age:</span>
+                                <p id="cardMeta" class="font-bold text-white">Male, 42 yrs</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-3">
+                        <button onclick="switchView('appointment')" class="flex-1 bg-bharat-teal hover:bg-bharat-darkteal text-white text-xs font-bold py-2.5 rounded-xl shadow transition text-center">
+                            Book Appointment Now <i class="fa-solid fa-arrow-right ml-1"></i>
+                        </button>
+                        <button onclick="switchView('dashboard')" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold py-2.5 rounded-xl transition text-center">
+                            Go to Health Wallet
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= VIEW 4: APPOINTMENT BOOKING WIZARD ================= -->
+        <div id="view-appointment" class="view-section hidden space-y-6 animate-fade-in max-w-3xl mx-auto">
+            <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-6 sm:p-8 space-y-6">
+                <div class="border-b pb-4">
+                    <span class="bg-bharat-50 text-bharat-600 text-xs font-bold px-3 py-1 rounded-full"><i class="fa-solid fa-calendar-plus mr-1"></i> National OPD Engine</span>
+                    <h2 class="text-2xl font-extrabold text-slate-800 mt-2">Book Hospital OPD Ticket</h2>
+                    <p class="text-xs text-slate-500">Select hospital, department, doctor, and consultation slot.</p>
+                </div>
+
+                <form id="apptBookingWizard" onsubmit="handleAppointmentSubmit(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Patient ABHA Number / UHID *</label>
+                        <div class="flex gap-2">
+                            <input type="text" id="wizUhid" required placeholder="Enter ABHA/UHID (e.g. ABHA-9842-1029)" class="flex-grow border rounded-xl p-2.5 text-xs sm:text-sm font-mono font-bold focus:ring-2 focus:ring-bharat-500 focus:outline-none">
+                            <button type="button" onclick="fillDemoAbha()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs px-3 rounded-xl font-bold border">Use Active Profile</button>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Select Hospital *</label>
+                            <select id="wizHospital" required onchange="wizHospitalChanged()" class="w-full border rounded-xl p-2.5 text-xs sm:text-sm font-semibold focus:ring-2 focus:ring-bharat-500 focus:outline-none bg-white">
+                                <!-- Populated dynamically -->
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Department / Specialty *</label>
+                            <select id="wizDept" required onchange="wizDeptChanged()" class="w-full border rounded-xl p-2.5 text-xs sm:text-sm font-semibold focus:ring-2 focus:ring-bharat-500 focus:outline-none bg-white">
+                                <option value="">Select Department</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Consultant Doctor *</label>
+                            <select id="wizDoctor" required class="w-full border rounded-xl p-2.5 text-xs sm:text-sm font-semibold focus:ring-2 focus:ring-bharat-500 focus:outline-none bg-white">
+                                <option value="">Select Doctor</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Appointment Date *</label>
+                            <input type="date" id="wizDate" required class="w-full border rounded-xl p-2.5 text-xs sm:text-sm font-semibold focus:ring-2 focus:ring-bharat-500 focus:outline-none bg-white">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Preferred Time Slot *</label>
+                            <select id="wizSlot" required class="w-full border rounded-xl p-2.5 text-xs sm:text-sm font-semibold focus:ring-2 focus:ring-bharat-500 focus:outline-none bg-white">
+                                <option value="09:00 AM - 10:00 AM">09:00 AM - 10:00 AM</option>
+                                <option value="10:00 AM - 11:00 AM">10:00 AM - 11:00 AM</option>
+                                <option value="11:00 AM - 12:00 PM">11:00 AM - 12:00 PM</option>
+                                <option value="12:00 PM - 01:00 PM">12:00 PM - 01:00 PM</option>
+                                <option value="02:00 PM - 03:00 PM">02:00 PM - 03:00 PM</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Ayushman Bharat PM-JAY Eligibility</label>
+                            <div class="flex items-center gap-2 border p-2.5 rounded-xl bg-slate-50">
+                                <input type="checkbox" id="wizAyushmanCheck" class="w-4 h-4 text-bharat-600 rounded">
+                                <label for="wizAyushmanCheck" class="text-xs font-semibold text-slate-700">Apply Free Ayushman OPD Exemption</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-50 p-4 rounded-2xl border flex items-center justify-between">
+                        <div>
+                            <p class="text-xs text-slate-500">Total Consultation Fee</p>
+                            <h4 id="wizFeeDisplay" class="text-xl font-extrabold text-slate-800">₹ 30.00</h4>
+                        </div>
+                        <button type="submit" class="bg-bharat-600 hover:bg-bharat-700 text-white font-bold px-6 py-3 rounded-xl text-sm shadow transition flex items-center gap-2">
+                            Proceed to Payment / Confirmation <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- ================= VIEW 5: DIAGNOSTICS ================= -->
+        <div id="view-diagnostics" class="view-section hidden space-y-6 animate-fade-in">
+            <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div>
+                    <span class="bg-rose-50 text-rose-700 text-xs font-bold px-3 py-1 rounded-full"><i class="fa-solid fa-vial-virus mr-1"></i> Pathology & Imaging</span>
+                    <h2 class="text-2xl font-extrabold text-slate-800 mt-2">National Diagnostic Test Catalog</h2>
+                    <p class="text-xs text-slate-500">Government subsidized rates & accredited hospital labs across India.</p>
+                </div>
+                <div class="w-full md:w-80">
+                    <input type="text" id="diagSearchInput" oninput="renderDiagnosticsList()" placeholder="Search test name (e.g. MRI, Lipid, CBC)..." class="w-full border rounded-xl px-3.5 py-2.5 text-xs sm:text-sm font-semibold focus:ring-2 focus:ring-bharat-500 focus:outline-none">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="diagnosticsListContainer">
+                <!-- Dynamically populated -->
+            </div>
+        </div>
+
+        <!-- ================= VIEW 6: LIVE QUEUE TRACKER ================= -->
+        <div id="view-queue" class="view-section hidden space-y-6 animate-fade-in max-w-3xl mx-auto">
+            <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-6 sm:p-8 space-y-6 text-center">
+                <div class="border-b pb-4 text-left">
+                    <span class="bg-teal-50 text-teal-700 text-xs font-bold px-3 py-1 rounded-full"><i class="fa-solid fa-tower-broadcast mr-1"></i> Real-time Queue Broadcast</span>
+                    <h2 class="text-2xl font-extrabold text-slate-800 mt-2">Live OPD Token Queue Status</h2>
+                    <p class="text-xs text-slate-500">Track current token being served at any empanelled hospital in India.</p>
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+                    <input type="text" id="queueTokenInput" placeholder="Enter Token (e.g. SB-302)" class="flex-grow border rounded-xl px-4 py-2.5 text-sm font-mono uppercase font-bold focus:ring-2 focus:ring-bharat-500 focus:outline-none">
+                    <button onclick="triggerLiveQueueCheck()" class="bg-bharat-teal hover:bg-bharat-darkteal text-white font-bold px-6 py-2.5 rounded-xl text-sm shadow transition">
+                        Check Live Status
+                    </button>
+                </div>
+
+                <div id="queueCardDisplay" class="hidden bg-gradient-to-br from-bharat-900 via-bharat-800 to-bharat-700 text-white rounded-3xl p-6 sm:p-8 shadow-2xl space-y-6 text-left">
+                    <div class="flex justify-between items-center border-b border-white/20 pb-4">
+                        <div>
+                            <span class="text-xs text-teal-200 uppercase font-semibold" id="qHospName">AIIMS, New Delhi</span>
+                            <h3 id="qDeptName" class="text-xl font-extrabold">Cardiology OPD - Room 12</h3>
+                        </div>
+                        <span class="bg-emerald-500 text-white px-3 py-1 rounded-full text-xs font-bold animate-pulse">● LIVE QUEUE</span>
+                    </div>
+
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
+                        <div class="bg-white/10 p-4 rounded-2xl backdrop-blur-md">
+                            <p class="text-xs text-teal-200">Your Token</p>
+                            <h4 id="qYourToken" class="text-2xl font-mono font-extrabold mt-1 text-saffron-300">SB-302</h4>
+                        </div>
+                        <div class="bg-white/10 p-4 rounded-2xl backdrop-blur-md">
+                            <p class="text-xs text-teal-200">Currently Serving</p>
+                            <h4 id="qCurrentServing" class="text-2xl font-mono font-extrabold mt-1 text-teal-300">SB-298</h4>
+                        </div>
+                        <div class="bg-white/10 p-4 rounded-2xl backdrop-blur-md">
+                            <p class="text-xs text-teal-200">Patients Ahead</p>
+                            <h4 id="qAheadCount" class="text-2xl font-extrabold mt-1">4</h4>
+                        </div>
+                        <div class="bg-white/10 p-4 rounded-2xl backdrop-blur-md">
+                            <p class="text-xs text-teal-200">Est. Wait Time</p>
+                            <h4 id="qEstWait" class="text-2xl font-extrabold mt-1">~15 mins</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= VIEW 7: HEALTH DASHBOARD ================= -->
+        <div id="view-dashboard" class="view-section hidden space-y-6 animate-fade-in">
+            <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div class="flex items-center gap-4">
+                    <div class="w-14 h-14 bg-bharat-50 text-bharat-600 rounded-2xl flex items-center justify-center text-2xl font-bold shadow-inner">
+                        <i class="fa-solid fa-user-shield"></i>
+                    </div>
+                    <div>
+                        <span class="text-xs text-slate-500 font-bold">ABHA Number: <span id="dashAbhaNo" class="font-mono text-bharat-700">91-8842-9012-4410</span></span>
+                        <h2 id="dashName" class="text-xl font-extrabold text-slate-800">Ramesh Chandra (42 yrs, Male)</h2>
+                        <p class="text-xs text-slate-500">Uttar Pradesh • Linked Mobile: +91 98765 43210</p>
+                    </div>
+                </div>
+                <button onclick="switchView('appointment')" class="bg-bharat-600 hover:bg-bharat-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl shadow transition">
+                    + Book New Appointment
+                </button>
+            </div>
+
+            <!-- Dashboard Records Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white rounded-3xl border p-6 space-y-4">
+                    <h3 class="font-bold text-slate-800 flex items-center gap-2"><i class="fa-solid fa-calendar-check text-bharat-600"></i> Active OPD Tokens & Appointments</h3>
+                    <div class="space-y-3" id="dashAppointmentsContainer">
+                        <!-- Populated dynamically -->
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-3xl border p-6 space-y-4">
+                    <h3 class="font-bold text-slate-800 flex items-center gap-2"><i class="fa-solid fa-vial-virus text-rose-600"></i> Diagnostic Bookings</h3>
+                    <div class="space-y-3" id="dashTestsContainer">
+                        <!-- Populated dynamically -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= VIEW 8: HELPLINE & INFO ================= -->
+        <div id="view-info" class="view-section hidden space-y-6 animate-fade-in max-w-4xl mx-auto">
+            <div class="bg-white rounded-3xl border p-6 sm:p-8 space-y-6">
+                <div class="border-b pb-4">
+                    <span class="bg-rose-50 text-rose-700 text-xs font-bold px-3 py-1 rounded-full"><i class="fa-solid fa-phone-volume mr-1"></i> Emergency Assistance</span>
+                    <h2 class="text-2xl font-extrabold text-slate-800 mt-2">National Health Helplines</h2>
+                    <p class="text-xs text-slate-500">Toll-free emergency numbers active 24/7 across all states in India.</p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div class="bg-rose-50 p-4 rounded-2xl border border-rose-200 space-y-1">
+                        <span class="text-xs text-rose-700 font-bold">National Ambulance</span>
+                        <h4 class="text-2xl font-extrabold text-rose-900 font-mono">108</h4>
+                        <p class="text-[11px] text-rose-700">Free emergency dispatch across India</p>
+                    </div>
+
+                    <div class="bg-bharat-50 p-4 rounded-2xl border border-bharat-200 space-y-1">
+                        <span class="text-xs text-bharat-700 font-bold">Maternal & Child Tracking</span>
+                        <h4 class="text-2xl font-extrabold text-bharat-900 font-mono">102</h4>
+                        <p class="text-[11px] text-bharat-700">Pregnant women & newborn care</p>
+                    </div>
+
+                    <div class="bg-emerald-50 p-4 rounded-2xl border border-emerald-200 space-y-1">
+                        <span class="text-xs text-emerald-700 font-bold">National Health Portal</span>
+                        <h4 class="text-2xl font-extrabold text-emerald-900 font-mono">1075</h4>
+                        <p class="text-[11px] text-emerald-700">Ministry of Health Helpdesk</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- ================= MODAL: PAYMENT GATEWAY ================= -->
+    <div id="paymentModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 space-y-6 shadow-2xl animate-fade-in">
+            <div class="flex justify-between items-center border-b pb-3">
+                <div>
+                    <span class="text-[11px] font-bold text-bharat-600 uppercase">Universal Healthcare Payment</span>
+                    <h3 class="text-lg font-bold text-slate-800">Checkout</h3>
+                </div>
+                <button onclick="closePaymentModal()" class="text-slate-400 hover:text-slate-600 text-lg"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <div class="bg-slate-50 p-4 rounded-2xl border space-y-2 text-xs">
+                <div class="flex justify-between"><span>Booking Item:</span><strong id="payItemDesc">OPD Consultation</strong></div>
+                <div class="flex justify-between"><span>ABHA UHID:</span><strong id="payUhId" class="font-mono">ABHA-9842-1029</strong></div>
+                <div class="flex justify-between border-t pt-2 text-sm"><span>Payable Amount:</span><strong id="payAmount" class="text-bharat-700 text-base">₹ 30.00</strong></div>
+            </div>
+
+            <div class="space-y-3">
+                <label class="block text-xs font-bold text-slate-700">Select Payment Option</label>
+                <div class="grid grid-cols-2 gap-2 text-xs font-bold">
+                    <button class="p-3 border-2 border-bharat-600 bg-bharat-50 text-bharat-700 rounded-xl text-center">
+                        <i class="fa-solid fa-qrcode text-lg mb-1 block"></i> UPI QR / GPay / PhonePe
+                    </button>
+                    <button class="p-3 border-2 border-slate-200 text-slate-600 rounded-xl text-center">
+                        <i class="fa-solid fa-credit-card text-lg mb-1 block"></i> Debit Card / NetBanking
+                    </button>
+                </div>
+            </div>
+
+            <button onclick="completePaymentProcess()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-2xl shadow-lg transition flex items-center justify-center gap-2 text-sm">
+                <i class="fa-solid fa-lock"></i> Confirm & Pay
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-bharat-900 text-white mt-16 pt-10 pb-6 border-t border-bharat-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 text-center text-xs text-slate-400 space-y-2">
+            <p>&copy; 2026 Swasthya Bharat Portal • Ministry of Health & Family Welfare, Govt. of India</p>
+            <p>Designed for Universal Accessible Healthcare Coverage across 36 States & Union Territories.</p>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // Comprehensive Dataset for Hospitals across India
+        const nationalHospitals = [
+            {
+                id: 'aiims_delhi',
+                name: 'AIIMS (All India Institute of Medical Sciences)',
+                type: 'AIIMS',
+                city: 'New Delhi',
+                state: 'Delhi NCR',
+                beds: '2,400+ Beds',
+                rating: '4.9 ★',
+                distance: 'Central Delhi',
+                depts: ['Cardiology', 'General Medicine', 'Neurology', 'Oncology', 'Pediatrics'],
+                doctors: {
+                    'Cardiology': ['Dr. V. K. Bahl (DM)', 'Dr. Nitish Naik (MD)'],
+                    'General Medicine': ['Dr. Randeep Guleria (DM)', 'Dr. Naval K. Vikram'],
+                    'Neurology': ['Dr. M. V. Padma (DM)', 'Dr. Manjari Tripathi']
+                },
+                fee: '₹ 10'
+            },
+            {
+                id: 'rml_lucknow',
+                name: 'Dr. Ram Manohar Lohia Institute',
+                type: 'Govt',
+                city: 'Lucknow',
+                state: 'Uttar Pradesh',
+                beds: '950+ Beds',
+                rating: '4.7 ★',
+                distance: 'Gomti Nagar',
+                depts: ['Cardiology', 'General Medicine', 'Orthopedics', 'Pediatrics'],
+                doctors: {
+                    'Cardiology': ['Dr. A. K. Saxena (DM)', 'Dr. Sunita Rastogi'],
+                    'General Medicine': ['Dr. R. K. Verma (MD)', 'Dr. Meenakshi Singh'],
+                    'Orthopedics': ['Dr. Vikas Mishra (MS)', 'Dr. Alok Srivastava']
+                },
+                fee: '₹ 20'
+            },
+            {
+                id: 'safdarjung_delhi',
+                name: 'Vardhman Mahavir Medical College & Safdarjung Hospital',
+                type: 'Govt',
+                city: 'New Delhi',
+                state: 'Delhi NCR',
+                beds: '2,900+ Beds',
+                rating: '4.6 ★',
+                distance: 'Ring Road',
+                depts: ['General Medicine', 'Orthopedics', 'Pediatrics', 'Ophthalmology'],
+                doctors: {
+                    'General Medicine': ['Dr. Jugal Kishore (MD)', 'Dr. S. K. Sharma'],
+                    'Orthopedics': ['Dr. Ramesh Kumar (MS)', 'Dr. Anoop Raj']
+                },
+                fee: '₹ 10'
+            },
+            {
+                id: 'apollo_mumbai',
+                name: 'Apollo Hospitals',
+                type: 'Private',
+                city: 'Mumbai',
+                state: 'Maharashtra',
+                beds: '500+ Beds',
+                rating: '4.8 ★',
+                distance: 'Navi Mumbai',
+                depts: ['Cardiology', 'Oncology', 'Neurology'],
+                doctors: {
+                    'Cardiology': ['Dr. Sameer Pagad (DM)', 'Dr. Rahul Gupta'],
+                    'Oncology': ['Dr. Tejinder Singh (DM)', 'Dr. Ashish Joshi']
+                },
+                fee: '₹ 500'
+            },
+            {
+                id: 'fortis_bengaluru',
+                name: 'Fortis Healthcare',
+                type: 'Private',
+                city: 'Bengaluru',
+                state: 'Karnataka',
+                beds: '400+ Beds',
+                rating: '4.7 ★',
+                distance: 'Bannerghatta Road',
+                depts: ['Cardiology', 'Orthopedics', 'Pediatrics'],
+                doctors: {
+                    'Cardiology': ['Dr. K. S. Kishore (DM)', 'Dr. Vivek Jawali'],
+                    'Orthopedics': ['Dr. Rajkumar Amaravati (MS)', 'Dr. Mohan K.']
+                },
+                fee: '₹ 600'
+            },
+            {
+                id: 'pmch_patna',
+                name: 'Patna Medical College & Hospital (PMCH)',
+                type: 'Govt',
+                city: 'Patna',
+                state: 'Bihar',
+                beds: '1,700+ Beds',
+                rating: '4.4 ★',
+                distance: 'Ashok Rajpath',
+                depts: ['General Medicine', 'Pediatrics', 'Orthopedics'],
+                doctors: {
+                    'General Medicine': ['Dr. B. P. Singh (MD)', 'Dr. A. K. Jha'],
+                    'Pediatrics': ['Dr. Nigam Prakash (MD)', 'Dr. S. Roy']
+                },
+                fee: '₹ 10'
+            }
+        ];
+
+        const nationalDiagnostics = [
+            { id: 'd1', name: 'Comprehensive Health Panel (CBC, LFT, KFT, Lipid)', category: 'Pathology', fee: '₹ 350', time: 'Reports in 8 Hours' },
+            { id: 'd2', name: 'MRI Brain 3T High Resolution', category: 'Radiology', fee: '₹ 1,800', time: 'By Appointment' },
+            { id: 'd3', name: 'CT Chest Whole Scan', category: 'Radiology', fee: '₹ 1,200', time: 'Same Day' },
+            { id: 'd4', name: 'Thyroid Profile (T3, T4, TSH)', category: 'Pathology', fee: '₹ 200', time: 'Reports in 24 Hours' }
+        ];
+
+        // State Store
+        let userProfile = {
+            abhaNo: '91-8842-9012-4410',
+            name: 'Ramesh Chandra',
+            mobile: '9876543210',
+            age: '42',
+            gender: 'Male',
+            state: 'Uttar Pradesh'
+        };
+
+        let userAppointments = [
+            { token: 'SB-302', hospital: 'AIIMS, New Delhi', dept: 'Cardiology', doctor: 'Dr. V. K. Bahl', date: '2026-10-14', slot: '10:00 AM - 11:00 AM', status: 'Confirmed' }
+        ];
+
+        let userTests = [
+            { name: 'Comprehensive Health Panel', date: '2026-10-15', status: 'Scheduled', fee: '₹ 350' }
+        ];
+
+        let pendingCheckout = null;
+        let selectedHospTypeFilter = 'All';
+
+        window.onload = function() {
+            renderHomeFeaturedHospitals();
+            renderHospitalsList();
+            renderDiagnosticsList();
+            populateWizHospitals();
+            renderDashboard();
+        };
+
+        function switchView(viewId) {
+            document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
+            const target = document.getElementById(`view-${viewId}`);
+            if(target) {
+                target.classList.remove('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function toggleMobileMenu() {
+            document.getElementById('mobileMenu').classList.toggle('hidden');
+        }
+
+        function renderHomeFeaturedHospitals() {
+            const container = document.getElementById('homeFeaturedHospitals');
+            if(!container) return;
+            container.innerHTML = nationalHospitals.slice(0, 3).map(h => `
+                <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition space-y-4 flex flex-col justify-between">
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-start">
+                            <span class="text-[11px] font-bold ${h.type === 'Private' ? 'bg-amber-100 text-amber-800' : 'bg-bharat-100 text-bharat-800'} px-2.5 py-1 rounded-full">${h.type} Hospital</span>
+                            <span class="text-xs font-bold text-slate-600">${h.rating}</span>
+                        </div>
+                        <h4 class="font-extrabold text-slate-800 text-base leading-tight">${h.name}</h4>
+                        <p class="text-xs text-slate-500"><i class="fa-solid fa-location-dot text-bharat-600 mr-1"></i> ${h.city}, ${h.state}</p>
+                    </div>
+                    <div class="pt-3 border-t flex justify-between items-center text-xs">
+                        <span class="font-bold text-slate-700">${h.fee} OPD Ticket</span>
+                        <button onclick="quickBookFromHospital('${h.id}')" class="bg-bharat-600 hover:bg-bharat-700 text-white font-bold px-3.5 py-2 rounded-xl transition">
+                            Book Ticket <i class="fa-solid fa-arrow-right ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderHospitalsList() {
+            const container = document.getElementById('hospitalsListContainer');
+            if(!container) return;
+
+            const search = document.getElementById('hospitalSearchInput')?.value.toLowerCase() || '';
+
+            const filtered = nationalHospitals.filter(h => {
+                const matchesType = selectedHospTypeFilter === 'All' || 
+                                   (selectedHospTypeFilter === 'Govt' && h.type === 'Govt') ||
+                                   (selectedHospTypeFilter === 'AIIMS' && h.type === 'AIIMS') ||
+                                   (selectedHospTypeFilter === 'Private' && h.type === 'Private');
+                
+                const matchesSearch = h.name.toLowerCase().includes(search) || 
+                                      h.city.toLowerCase().includes(search) || 
+                                      h.state.toLowerCase().includes(search);
+
+                return matchesType && matchesSearch;
+            });
+
+            container.innerHTML = filtered.map(h => `
+                <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-4 flex flex-col justify-between">
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="text-[10px] font-bold bg-slate-100 text-slate-700 px-2.5 py-1 rounded-full uppercase">${h.beds}</span>
+                            <span class="text-xs font-bold text-teal-700 bg-teal-50 px-2.5 py-1 rounded-full">${h.distance}</span>
+                        </div>
+                        <h3 class="font-extrabold text-slate-800 text-lg leading-tight">${h.name}</h3>
+                        <p class="text-xs text-slate-500"><i class="fa-solid fa-map-pin mr-1 text-bharat-600"></i> ${h.city}, ${h.state}</p>
+                        <div class="flex flex-wrap gap-1 pt-1">
+                            ${h.depts.map(d => `<span class="bg-slate-50 border text-slate-600 text-[10px] px-2 py-0.5 rounded font-semibold">${d}</span>`).join('')}
+                        </div>
+                    </div>
+                    <div class="pt-3 border-t flex justify-between items-center text-xs">
+                        <span class="font-extrabold text-bharat-700 text-sm">${h.fee}</span>
+                        <button onclick="quickBookFromHospital('${h.id}')" class="bg-bharat-teal hover:bg-bharat-darkteal text-white font-bold px-4 py-2 rounded-xl transition">
+                            Select Hospital <i class="fa-solid fa-arrow-right ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function setHospTypeFilter(type) {
+            selectedHospTypeFilter = type;
+            document.querySelectorAll('.hosp-filter-btn').forEach(btn => {
+                btn.classList.remove('bg-bharat-600', 'text-white', 'shadow');
+                btn.classList.add('bg-white', 'border', 'text-slate-700');
+            });
+            event.target.classList.remove('bg-white', 'border', 'text-slate-700');
+            event.target.classList.add('bg-bharat-600', 'text-white', 'shadow');
+            renderHospitalsList();
+        }
+
+        function quickBookFromHospital(hospId) {
+            switchView('appointment');
+            document.getElementById('wizHospital').value = hospId;
+            wizHospitalChanged();
+        }
+
+        function handleAbhaRegistration(e) {
+            e.preventDefault();
+            userProfile.name = document.getElementById('pName').value;
+            userProfile.mobile = document.getElementById('pMobile').value;
+            userProfile.age = document.getElementById('pAge').value;
+            userProfile.gender = document.getElementById('pGender').value;
+            userProfile.state = document.getElementById('pState').value;
+
+            document.getElementById('cardName').innerText = userProfile.name;
+            document.getElementById('cardMeta').innerText = `${userProfile.gender}, ${userProfile.age} yrs`;
+
+            document.getElementById('abhaRegistrationForm').classList.add('hidden');
+            document.getElementById('abhaCardContainer').classList.remove('hidden');
+        }
+
+        function fillDemoAbha() {
+            document.getElementById('wizUhid').value = userProfile.abhaNo;
+        }
+
+        function populateWizHospitals() {
+            const select = document.getElementById('wizHospital');
+            if(!select) return;
+            select.innerHTML = '<option value="">Select Hospital</option>' + 
+                nationalHospitals.map(h => `<option value="${h.id}">${h.name} (${h.city})</option>`).join('');
+        }
+
+        function wizHospitalChanged() {
+            const hospId = document.getElementById('wizHospital').value;
+            const hosp = nationalHospitals.find(h => h.id === hospId);
+            const deptSelect = document.getElementById('wizDept');
+
+            if(!hosp) {
+                deptSelect.innerHTML = '<option value="">Select Department</option>';
+                return;
+            }
+
+            deptSelect.innerHTML = '<option value="">Select Department</option>' + 
+                hosp.depts.map(d => `<option value="${d}">${d}</option>`).join('');
+
+            document.getElementById('wizFeeDisplay').innerText = hosp.fee;
+        }
+
+        function wizDeptChanged() {
+            const hospId = document.getElementById('wizHospital').value;
+            const dept = document.getElementById('wizDept').value;
+            const hosp = nationalHospitals.find(h => h.id === hospId);
+            const docSelect = document.getElementById('wizDoctor');
+
+            if(hosp && hosp.doctors[dept]) {
+                docSelect.innerHTML = '<option value="">Select Doctor</option>' + 
+                    hosp.doctors[dept].map(doc => `<option value="${doc}">${doc}</option>`).join('');
+            } else {
+                docSelect.innerHTML = '<option value="General Duty Medical Officer">General Duty Medical Officer</option>';
+            }
+        }
+
+        function handleAppointmentSubmit(e) {
+            e.preventDefault();
+            const hospId = document.getElementById('wizHospital').value;
+            const hosp = nationalHospitals.find(h => h.id === hospId);
+            const dept = document.getElementById('wizDept').value;
+            const doctor = document.getElementById('wizDoctor').value;
+            const date = document.getElementById('wizDate').value;
+            const slot = document.getElementById('wizSlot').value;
+            const isAyushman = document.getElementById('wizAyushmanCheck').checked;
+
+            const fee = isAyushman ? '₹ 0 (Ayushman Exempted)' : hosp.fee;
+            const token = `SB-${Math.floor(200 + Math.random() * 400)}`;
+
+            pendingCheckout = {
+                type: 'appointment',
+                token,
+                hospital: hosp.name,
+                dept,
+                doctor,
+                date,
+                slot,
+                fee
+            };
+
+            document.getElementById('payItemDesc').innerText = `OPD Ticket: ${hosp.name}`;
+            document.getElementById('payAmount').innerText = fee;
+            document.getElementById('paymentModal').classList.remove('hidden');
+        }
+
+        function renderDiagnosticsList() {
+            const container = document.getElementById('diagnosticsListContainer');
+            if(!container) return;
+            container.innerHTML = nationalDiagnostics.map(d => `
+                <div class="bg-white rounded-3xl p-6 border shadow-sm space-y-4 flex flex-col justify-between">
+                    <div class="space-y-2">
+                        <span class="text-[10px] font-bold bg-rose-50 text-rose-700 px-2.5 py-1 rounded-full uppercase">${d.category}</span>
+                        <h3 class="font-extrabold text-slate-800 text-base mt-2">${d.name}</h3>
+                        <p class="text-xs text-slate-500"><i class="fa-regular fa-clock mr-1"></i> ${d.time}</p>
+                    </div>
+                    <div class="flex justify-between items-center border-t pt-3">
+                        <strong class="text-bharat-700 font-extrabold text-base">${d.fee}</strong>
+                        <button onclick="bookDiagTest('${d.name}', '${d.fee}')" class="bg-bharat-600 hover:bg-bharat-700 text-white font-bold text-xs px-3.5 py-2 rounded-xl transition">
+                            Book Test
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function bookDiagTest(name, fee) {
+            pendingCheckout = {
+                type: 'test',
+                name,
+                fee,
+                date: new Date().toISOString().split('T')[0]
+            };
+
+            document.getElementById('payItemDesc').innerText = `Diagnostic Test: ${name}`;
+            document.getElementById('payAmount').innerText = fee;
+            document.getElementById('paymentModal').classList.remove('hidden');
+        }
+
+        function completePaymentProcess() {
+            closePaymentModal();
+            if(!pendingCheckout) return;
+
+            if(pendingCheckout.type === 'appointment') {
+                userAppointments.unshift({
+                    token: pendingCheckout.token,
+                    hospital: pendingCheckout.hospital,
+                    dept: pendingCheckout.dept,
+                    doctor: pendingCheckout.doctor,
+                    date: pendingCheckout.date,
+                    slot: pendingCheckout.slot,
+                    status: 'Confirmed'
+                });
+                alert(`OPD Ticket Confirmed! Your Digital Token is ${pendingCheckout.token}`);
+            } else if(pendingCheckout.type === 'test') {
+                userTests.unshift({
+                    name: pendingCheckout.name,
+                    date: pendingCheckout.date,
+                    status: 'Scheduled',
+                    fee: pendingCheckout.fee
+                });
+                alert(`Diagnostic Test "${pendingCheckout.name}" successfully booked!`);
+            }
+
+            renderDashboard();
+            switchView('dashboard');
+            pendingCheckout = null;
+        }
+
+        function closePaymentModal() {
+            document.getElementById('paymentModal').classList.add('hidden');
+        }
+
+        function triggerLiveQueueCheck() {
+            const token = document.getElementById('queueTokenInput').value || 'SB-302';
+            document.getElementById('qYourToken').innerText = token;
+            document.getElementById('queueCardDisplay').classList.remove('hidden');
+        }
+
+        function renderDashboard() {
+            document.getElementById('dashAbhaNo').innerText = userProfile.abhaNo;
+            document.getElementById('dashName').innerText = `${userProfile.name} (${userProfile.age} yrs, ${userProfile.gender})`;
+
+            const apptContainer = document.getElementById('dashAppointmentsContainer');
+            apptContainer.innerHTML = userAppointments.map(a => `
+                <div class="bg-slate-50 p-4 rounded-2xl border space-y-2 text-xs">
+                    <div class="flex justify-between items-center">
+                        <span class="bg-bharat-600 text-white font-mono font-bold px-2 py-0.5 rounded">${a.token}</span>
+                        <span class="text-emerald-700 font-bold">${a.status}</span>
+                    </div>
+                    <h4 class="font-bold text-slate-800 text-sm">${a.hospital}</h4>
+                    <p class="text-slate-600">${a.dept} • ${a.doctor}</p>
+                    <p class="text-slate-500"><i class="fa-regular fa-calendar mr-1"></i> ${a.date} (${a.slot})</p>
+                </div>
+            `).join('');
+
+            const testsContainer = document.getElementById('dashTestsContainer');
+            testsContainer.innerHTML = userTests.map(t => `
+                <div class="bg-slate-50 p-4 rounded-2xl border space-y-1 text-xs">
+                    <div class="flex justify-between items-center">
+                        <h4 class="font-bold text-slate-800 text-sm">${t.name}</h4>
+                        <span class="text-bharat-700 font-bold">${t.fee}</span>
+                    </div>
+                    <p class="text-slate-500">Date: ${t.date} • <span class="text-teal-700 font-semibold">${t.status}</span></p>
+                </div>
+            `).join('');
+        }
+
+        function heroLocationChanged() {
+            const state = document.getElementById('heroStateFilter').value;
+            const citySelect = document.getElementById('heroCityFilter');
+            
+            if(state === 'Uttar Pradesh') {
+                citySelect.innerHTML = '<option value="All">All Cities</option><option value="Lucknow">Lucknow</option><option value="Varanasi">Varanasi</option><option value="Kanpur">Kanpur</option>';
+            } else if(state === 'Delhi NCR') {
+                citySelect.innerHTML = '<option value="All">All Cities</option><option value="New Delhi">New Delhi</option><option value="Noida">Noida</option>';
+            } else {
+                citySelect.innerHTML = '<option value="All">All Cities</option><option value="Mumbai">Mumbai</option><option value="Bengaluru">Bengaluru</option><option value="Patna">Patna</option>';
+            }
+        }
+
+        function triggerHeroSearch() {
+            switchView('hospitals');
+        }
+
+        function quickFilterHospital(tag) {
+            switchView('hospitals');
+            setHospTypeFilter(tag);
+        }
+    </script>
+</body>
+</html>
